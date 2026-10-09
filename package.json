@@ -1,0 +1,20 @@
+{
+  "name": "work-manager",
+  "version": "1.0.0",
+  "description": "个人工作管理平台：任务、打卡、提醒、日报（Node 内置 sqlite，零原生依赖）",
+  "main": "server/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --no-warnings server/index.js",
+    "dev": "node --no-warnings server/index.js"
+  },
+  "keywords": [
+    "work",
+    "manager",
+    "sqlite"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

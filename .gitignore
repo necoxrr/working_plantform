@@ -1,0 +1,21 @@
+# 依赖
+node_modules/
+
+# 数据库与个人数据（重要：绝不上传 GitHub）
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# 导出文件
+*.export.json
+
+# 系统与编辑器
+.DS_Store
+.vscode/
+.idea/
+npm-debug.log*
+
+# 崩溃转储
+core.*

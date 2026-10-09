@@ -1,0 +1,230 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --border: #e2e5ea;
+  --text: #1f2933;
+  --muted: #7b8794;
+  --primary: #2f6fed;
+  --primary-dark: #2358c4;
+  --danger: #d64545;
+  --red: #d64545;
+  --green: #2f9e63;
+  --amber: #d98a1f;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.topbar h1 { font-size: 16px; margin: 0; }
+.tabs { display: flex; gap: 6px; }
+.tab {
+  border: none;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+}
+.tab.active { background: #eaf1ff; color: var(--primary); font-weight: 600; }
+.actions { margin-left: auto; display: flex; gap: 8px; }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  background: #eef0f3;
+  color: var(--text);
+  transition: background .15s;
+}
+.btn:hover { background: #e3e6ea; }
+.btn.primary { background: var(--primary); color: #fff; }
+.btn.primary:hover { background: var(--primary-dark); }
+.btn.ghost { background: transparent; border-color: var(--border); }
+.btn.ghost:hover { background: #f0f2f5; }
+.btn.danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+.btn.danger:hover { background: #fdecec; }
+.btn.tiny { padding: 4px 10px; font-size: 12px; }
+
+/* ---------- 主体 ---------- */
+main { max-width: 1080px; margin: 0 auto; padding: 24px; }
+.view { display: none; }
+.view.active { display: block; }
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.toolbar h2 { font-size: 18px; margin: 0; }
+.date-pick { display: flex; align-items: center; gap: 8px; }
+.date-pick input { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius); }
+
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.empty { text-align: center; color: var(--muted); padding: 48px 0; }
+
+/* ---------- 任务卡片 ---------- */
+.task-list { display: flex; flex-direction: column; gap: 10px; }
+.task-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.task-card.overdue { border-left: 4px solid var(--red); }
+.task-card.done { opacity: .62; }
+.task-info { flex: 1; min-width: 0; }
+.task-title { font-weight: 600; font-size: 15px; margin: 0 0 4px; }
+.task-desc { color: var(--muted); margin: 0 0 8px; font-size: 13px; white-space: pre-wrap; }
+.task-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
+.task-meta b { color: var(--text); font-weight: 600; }
+.task-ops { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #eef0f3;
+  color: var(--muted);
+}
+.badge.st-未开始 { background: #eef0f3; color: #5b6670; }
+.badge.st-进行中 { background: #e7f1ff; color: var(--primary); }
+.badge.st-已完成 { background: #e6f6ec; color: var(--green); }
+.badge.st-已逾期 { background: #fdecec; color: var(--red); }
+
+/* ---------- 日报 ---------- */
+.report-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+.report-main, .report-side {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.report-main textarea {
+  width: 100%;
+  min-height: 380px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  resize: vertical;
+  font-family: inherit;
+}
+.report-main-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.report-side h3 { margin: 0 0 4px; font-size: 15px; }
+.sum-item {
+  border-top: 1px solid var(--border);
+  padding: 10px 0;
+}
+.sum-item:first-of-type { border-top: none; }
+.sum-title { font-weight: 600; font-size: 13px; }
+.sum-line { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+/* ---------- 站内提醒 ---------- */
+.reminder-banner {
+  background: #fff8e8;
+  border-bottom: 1px solid #f0dfb8;
+  padding: 12px 24px;
+}
+.reminder-head { display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--amber); }
+.reminder-banner ul { margin: 8px 0 0; padding-left: 20px; }
+.reminder-banner li { margin: 4px 0; font-size: 13px; }
+
+/* ---------- 弹窗 ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px;
+  z-index: 50;
+  overflow: auto;
+}
+.modal-box {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+}
+.modal-box h2 { margin: 0 0 16px; font-size: 18px; }
+.field-label { display: block; font-size: 13px; margin: 14px 0 6px; font-weight: 600; }
+.modal-box input[type=text],
+.modal-box input[type=number],
+.modal-box input[type=datetime-local],
+.modal-box select,
+.modal-box textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hint-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.modal-footer { display: flex; align-items: center; gap: 10px; margin-top: 22px; }
+.spacer { flex: 1; }
+
+/* 提醒行 */
+.reminder-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.reminder-row select { max-width: 110px; }
+.reminder-row input { flex: 1; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2933;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  z-index: 100;
+}
+
+@media (max-width: 820px) {
+  .report-layout { grid-template-columns: 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+}
