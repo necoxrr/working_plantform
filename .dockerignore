@@ -1,0 +1,19 @@
+# 构建镜像时不需要的东西（缩小体积 + 避免把个人数据打进去）
+.git
+.gitignore
+.gitattributes
+node_modules
+data
+.workbuddy
+.env
+.env.*
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.export.json
+tests
+scripts
+README.md
+DEPLOY.md
+.wbapp_*.genie

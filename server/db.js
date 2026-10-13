@@ -7,10 +7,11 @@
  *
  *  · 云端模式 —— 设好 TURSO_DATABASE_URL + TURSO_AUTH_TOKEN 即自动切换：
  *      数据存到托管的 libSQL（Turso），服务器上不留任何文件 ⇒ 进程彻底无状态，
- *      可部署到任意免费主机（Vercel / Render / Zeabur / Northflank / Cloudflare …）。
- *      用的是 @libsql/client 默认入口（纯 JS，走 fetch/HTTP 管线），不引入原生二进制。
- *      注：专门用默认入口而不是 @libsql/client/ws —— 自建 libsql-server 用 ws 可以，
- *      但 Turso 托管端点的 WebSocket 握手会返回 400；默认入口两种环境都能连。
+ *      可部署到任意免费主机（Render / Northflank / Railway / Zeabur / 任意 VPS …）。
+ *      用 @libsql/client/web 入口（纯 JS 的 fetch/HTTP 管线），
+ *      **不加载任何平台相关的原生二进制** ⇒ Alpine / ARM / 任意架构都能跑。
+ *      注：不要改用 /ws —— 自建 libsql-server 用 ws 可以，但 Turso 托管端点
+ *      的 WebSocket 握手会返回 400；/web 两种环境都通，事务能力也已实测（提交/回滚正确）。
  *
  * 对外统一导出【异步】接口，两种驱动实现完全一致：
  *      init()                建表 + 幂等迁移 + 连接自检
@@ -112,8 +113,15 @@ const localApi = {
 let client = null;   // @libsql/client 实例
 
 function initRemote() {
-  // 默认入口：走 fetch（HTTP hrana 管线）—— 纯 JS、无原生二进制，且支持真正的交互式事务
-  const { createClient } = require('@libsql/client');
+  // 只用 /web 入口（= fetch / HTTP hrana 管线）——**纯 JS、零原生二进制**。
+  //
+  // 为什么不用默认入口 `@libsql/client`：它 require 后就会连带加载平台相关的原生
+  // 二进制（如 @libsql/win32-x64-msvc、@libsql/linux-x64-gnu），
+  // 服务器架构/发行版一变（Alpine musl、ARM）就可能装不上或加载失败；
+  // 而且实测它比纯 JS 入口慢约 5 倍（1385ms vs 270ms，因为多了本地绑定初始化）。
+  //
+  // 不要改用 /ws：自建 libsql-server 可用，但连 Turso 托管端点会 WebSocket 握手 400。
+  const { createClient } = require('@libsql/client/web');
   client = createClient({ url: toClientUrl(TURSO_URL), authToken: TURSO_TOKEN });
 }
 
