@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>访问口令 · 我的工作台</title>
+<style>
+  :root {
+    --primary: #ff9ec7;
+    --primary-dark: #ffb8db;
+    --on-primary: #3d0f26;
+    --text: #f3e8f6;
+    --text-2: #dcc8e6;
+    --muted: #a990b8;
+    --border: rgba(255, 214, 235, .11);
+    --border-strong: rgba(255, 214, 235, .22);
+    --inset: rgba(20, 12, 30, .58);
+    --ring: rgba(255, 158, 199, .36);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 10% -8%, rgba(255, 158, 199, .22), transparent 60%),
+      radial-gradient(840px 500px at 94% -4%, rgba(185, 166, 255, .20), transparent 62%),
+      radial-gradient(780px 540px at 86% 94%, rgba(255, 213, 126, .11), transparent 60%),
+      linear-gradient(160deg, #1c1329 0%, #191124 46%, #120b1c 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+  .bg-magic {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bg-magic svg {
+    width: min(900px, 150vw); height: min(900px, 150vw);
+    opacity: .34; mix-blend-mode: screen;
+    animation: breathe 8s ease-in-out infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes breathe {
+    0%, 100% { opacity: .28; }
+    50%      { opacity: .46; }
+  }
+  .lg-disc { animation: discp 8s ease-in-out infinite; }
+  @keyframes discp { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+  /* 四组同心环各自独立旋转（方向交错、速度递进） */
+  .lg-a, .lg-b, .lg-c, .lg-d { transform-box: view-box; transform-origin: 200px 200px; }
+  .lg-a { animation: spin 40s linear infinite; }
+  .lg-b { animation: spin 26s linear infinite reverse; }
+  .lg-c { animation: spin 18s linear infinite; }
+  .lg-d { animation: spin 12s linear infinite reverse; }
+  /* 发光用浅色描边/渐变替代 drop-shadow（避免动画中逐帧重算滤镜） */
+  .lg-dot { stroke: rgba(255, 238, 200, .55); stroke-width: 1.6; }
+  .lg-core {
+    transform-box: view-box; transform-origin: 200px 200px;
+    animation: corep 4.6s ease-in-out infinite;
+  }
+  @keyframes corep { 0%, 100% { transform: scale(.72); opacity: .7; } 50% { transform: scale(1.3); opacity: 1; } }
+  /* 中心金光核：金色光晕 + 旋转金环 + 旋转金芒 */
+  .lg-gold-halo {
+    transform-box: view-box; transform-origin: 200px 200px;
+    animation: goldhalo 3.4s ease-in-out infinite;
+  }
+  @keyframes goldhalo { 0%, 100% { opacity: .60; transform: scale(.84); } 50% { opacity: 1; transform: scale(1.18); } }
+  .lg-gold-orbit {
+    transform-box: view-box; transform-origin: 200px 200px;
+    animation: spin 7s linear infinite;
+  }
+  .lg-gold-star {
+    transform-box: view-box; transform-origin: 200px 200px;
+    animation: goldstar 5.2s ease-in-out infinite;
+  }
+  @keyframes goldstar { 0%, 100% { transform: rotate(0deg) scale(.76); opacity: .45; } 50% { transform: rotate(45deg) scale(1.14); opacity: 1; } }
+  /* 中心金光球 */
+  .gold-core {
+    position: absolute; left: 50%; top: 50%;
+    width: min(460px, 86vw); height: min(460px, 86vw);
+    transform: translate(-50%, -50%); border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(255,246,200,.98) 0%, rgba(255,221,120,.82) 16%, rgba(255,195,76,.46) 40%,
+      rgba(255,177,54,.18) 60%, transparent 74%);
+    /* 必须保留 screen：否则金光会变成"实心球"；一层轻量柔化让边缘不"硬" */
+    filter: blur(10px);
+    mix-blend-mode: screen;
+    animation: goldcore 4.4s ease-in-out infinite;
+  }
+  @keyframes goldcore { 0%,100% { opacity: .5; transform: translate(-50%,-50%) scale(.86); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.12); } }
+  .gold-core::after {
+    content: ""; position: absolute; inset: 6%; border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg 10deg, rgba(255,236,176,.26) 13deg 17deg, transparent 20deg 46deg, rgba(255,236,176,.2) 49deg 53deg, transparent 56deg 96deg, rgba(255,236,176,.26) 99deg 103deg, transparent 106deg 156deg, rgba(255,236,176,.2) 159deg 163deg, transparent 166deg 226deg, rgba(255,236,176,.26) 229deg 233deg, transparent 236deg 306deg, rgba(255,236,176,.2) 309deg 313deg, transparent 316deg 360deg);
+    animation: goldcorespin 26s linear infinite;
+  }
+  @keyframes goldcorespin { to { transform: rotate(360deg); } }
+  @keyframes flow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+  @keyframes in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .card {
+    position: relative; z-index: 1;
+    width: 100%;
+    max-width: 380px;
+    padding: 32px 28px 26px;
+    border-radius: 22px;
+    background: rgba(20, 12, 31, .95);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .62), 0 0 40px rgba(255, 158, 199, .10), inset 0 1px 0 rgba(255, 255, 255, .08);
+    animation: in .4s cubic-bezier(0, 0, .2, 1);
+  }
+  .brand {
+    width: 44px; height: 44px; border-radius: 50%; margin-bottom: 18px;
+    background:
+      radial-gradient(circle at 50% 50%, #fff6fb 0 20%, transparent 44%),
+      conic-gradient(from 0deg, #ffd57e, #ff9ec7 30%, #b9a6ff 55%, #ff9ec7 80%, #ffd57e);
+    box-shadow: 0 6px 22px rgba(255, 158, 199, .55);
+    animation: spin 10s linear infinite;
+  }
+  h1 {
+    margin: 0 0 6px; font-size: 20px; font-weight: 800; letter-spacing: .01em;
+    background: linear-gradient(120deg, #ffd57e 0%, #ff9ec7 34%, #ffffff 50%, #ff9ec7 66%, #b9a6ff 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: flow 7s linear infinite;
+  }
+  .sub { margin: 0 0 22px; font-size: 13px; color: var(--muted); }
+  input {
+    width: 100%; padding: 12px 14px; font-size: 15px; font-family: inherit;
+    color: var(--text); background: var(--inset);
+    border: 1px solid var(--border-strong); border-radius: 12px;
+    outline: none; transition: border-color .14s, box-shadow .14s;
+  }
+  input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--ring); }
+  button {
+    width: 100%; margin-top: 14px; padding: 12px; font-size: 15px; font-weight: 600;
+    font-family: inherit; cursor: pointer; border: none; border-radius: 12px;
+    color: var(--on-primary);
+    background: linear-gradient(135deg, #ffb3d4, #ff9ec7 46%, #ff8fb8);
+    box-shadow: 0 6px 20px rgba(255, 158, 199, .42);
+    transition: filter .14s, transform .14s;
+  }
+  button:hover { filter: brightness(1.06); }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: .6; cursor: not-allowed; }
+  .msg { margin: 14px 0 0; font-size: 13px; color: #ff8ba7; text-align: center; }
+  .msg.hidden { display: none; }
+  html.no-motion .brand, html.no-motion .bg-magic svg,
+  html.no-motion .lg-a, html.no-motion .lg-b, html.no-motion .lg-c, html.no-motion .lg-d,
+  html.no-motion .lg-core, html.no-motion .lg-disc,
+  html.no-motion .lg-gold-halo, html.no-motion .lg-gold-orbit, html.no-motion .lg-gold-star,
+  html.no-motion .gold-core, html.no-motion .gold-core::after,
+  html.no-motion h1 { animation: none !important; }
+</style>
+</head>
+<body>
+  <div class="bg-magic" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none">
+      <defs>
+        <linearGradient id="lgPink" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffd6ea"/>
+          <stop offset=".5" stop-color="#ff9ec7"/>
+          <stop offset="1" stop-color="#b9a6ff"/>
+        </linearGradient>
+        <linearGradient id="lgGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff3d0"/>
+          <stop offset="1" stop-color="#ffd57e"/>
+        </linearGradient>
+        <radialGradient id="lgDisc" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="rgba(185,166,255,.10)"/>
+          <stop offset=".5" stop-color="rgba(255,158,199,.05)"/>
+          <stop offset=".88" stop-color="rgba(255,158,199,.16)"/>
+          <stop offset="1" stop-color="rgba(255,158,199,0)"/>
+        </radialGradient>
+        <radialGradient id="lgGoldCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#fff8e2" stop-opacity=".98"/>
+          <stop offset=".28" stop-color="#ffe6a8" stop-opacity=".78"/>
+          <stop offset=".58" stop-color="#ffd271" stop-opacity=".34"/>
+          <stop offset="1" stop-color="#ffc85a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle class="lg-disc" cx="200" cy="200" r="196" fill="url(#lgDisc)"/>
+      <g class="lg-a">
+        <circle cx="200" cy="200" r="194" stroke="url(#lgPink)" stroke-width="1" opacity=".9"/>
+        <circle cx="200" cy="200" r="187" stroke="url(#lgGold)" stroke-width="1.4" stroke-dasharray="1.4 8.6" stroke-linecap="round" opacity=".85"/>
+        <circle cx="200" cy="200" r="179" stroke="url(#lgPink)" stroke-width=".8" opacity=".6"/>
+        <circle class="lg-dot" cx="200" cy="10" r="2.6" fill="#fff6e6"/>
+      </g>
+      <g class="lg-b">
+        <circle cx="200" cy="200" r="152" stroke="url(#lgGold)" stroke-width="1.1" stroke-dasharray=".8 6.4" stroke-linecap="round" opacity=".7"/>
+        <circle cx="200" cy="200" r="143" stroke="url(#lgPink)" stroke-width="1" opacity=".8"/>
+        <circle cx="200" cy="200" r="134" stroke="#ff8fb1" stroke-width=".7" stroke-dasharray="3.5 6.5" opacity=".55"/>
+      </g>
+      <g class="lg-c">
+        <polygon points="200,50 288.17,321.35 57.34,153.65 342.66,153.65 111.83,321.35" stroke="url(#lgPink)" stroke-width="1.3" stroke-linejoin="round" opacity=".9"/>
+        <polygon points="200,50 288.17,321.35 57.34,153.65 342.66,153.65 111.83,321.35" stroke="url(#lgGold)" stroke-width=".7" stroke-linejoin="round" transform="rotate(36 200 200)" opacity=".7"/>
+      </g>
+      <g class="lg-d">
+        <circle cx="200" cy="200" r="72" stroke="url(#lgGold)" stroke-width="1" stroke-dasharray="2.6 6" stroke-linecap="round" opacity=".8"/>
+        <circle cx="200" cy="200" r="60" stroke="url(#lgPink)" stroke-width="1.1" opacity=".85"/>
+        <polygon points="200,176 205.64,192.23 222.83,192.58 209.13,202.97 214.11,219.42 200,209.6 185.89,219.42 190.87,202.97 177.17,192.58 194.36,192.23" fill="rgba(255,255,255,.92)"/>
+      </g>
+      <g class="lg-gold">
+        <circle class="lg-gold-halo" cx="200" cy="200" r="56" fill="url(#lgGoldCore)"/>
+        <g class="lg-gold-orbit">
+          <circle cx="200" cy="200" r="43" stroke="url(#lgGold)" stroke-width="1.15" stroke-dasharray="1.6 5.2" stroke-linecap="round" opacity=".95"/>
+          <circle cx="200" cy="200" r="33" stroke="#ffe6a6" stroke-width=".85" stroke-dasharray="3 6.6" opacity=".8"/>
+        </g>
+        <g class="lg-gold-star" stroke="url(#lgGold)" stroke-linecap="round">
+          <line x1="200" y1="62" x2="200" y2="150" stroke-width="1.7"/>
+          <line x1="200" y1="250" x2="200" y2="338" stroke-width="1.7"/>
+          <line x1="62" y1="200" x2="150" y2="200" stroke-width="1.7"/>
+          <line x1="250" y1="200" x2="338" y2="200" stroke-width="1.7"/>
+          <line x1="104" y1="104" x2="162" y2="162" stroke-width="1.1" opacity=".78"/>
+          <line x1="238" y1="238" x2="296" y2="296" stroke-width="1.1" opacity=".78"/>
+          <line x1="296" y1="104" x2="238" y2="162" stroke-width="1.1" opacity=".78"/>
+          <line x1="104" y1="296" x2="162" y2="238" stroke-width="1.1" opacity=".78"/>
+        </g>
+      </g>
+      <circle class="lg-core" cx="200" cy="200" r="7" fill="#fff8e6"/>
+    </svg>
+    <div class="gold-core"></div>
+  </div>
+  <form class="card" id="f" autocomplete="on">
+    <div class="brand"></div>
+    <h1>我的工作台</h1>
+    <p class="sub">输入访问口令后继续</p>
+    <input id="pw" type="password" placeholder="访问口令" autocomplete="current-password" autofocus>
+    <button type="submit" id="btn">进入</button>
+    <p class="msg hidden" id="msg"></p>
+  </form>
+<script>
+  // 沿用主页的动效开关偏好
+  try { if (localStorage.getItem('wm-motion') === 'off') document.documentElement.classList.add('no-motion'); } catch (e) {}
+  const f = document.getElementById('f');
+  const pw = document.getElementById('pw');
+  const btn = document.getElementById('btn');
+  const msg = document.getElementById('msg');
+
+  function show(text) {
+    msg.textContent = text;
+    msg.classList.remove('hidden');
+  }
+
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!pw.value) { show('请输入访问口令'); return; }
+    btn.disabled = true;
+    btn.textContent = '验证中…';
+    msg.classList.add('hidden');
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw.value }),
+      });
+      if (res.ok) { window.location.href = '/'; return; }
+      const d = await res.json().catch(() => ({}));
+      show(d.error || '口令不正确');
+    } catch {
+      show('网络错误，请重试');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '进入';
+    }
+  });
+</script>
+</body>
+</html>

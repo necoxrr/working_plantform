@@ -3,6 +3,8 @@
 一个**个人自用**的轻量工作管理平台：记录每日工作内容、任务时间节点、打卡耗时、截止与提醒，并自动汇总成日报。
 
 技术栈极简，**零原生依赖**（数据库用 Node.js 22 内置的 `node:sqlite`），`npm install` + `npm start` 即可运行。
+存储可插拔：默认写本地 SQLite 文件，设好 `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` 就自动切到云端 libSQL，
+进程变成彻底无状态，可部署到任意平台 —— 详见 [DEPLOY.md](DEPLOY.md)。
 
 ---
 

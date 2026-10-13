@@ -11,6 +11,17 @@ data/
 # 导出文件
 *.export.json
 
+# 本地工作目录（会话记录、测试副本、临时产物，都可能含个人数据）
+.workbuddy/
+
+# 本机应用绑定文件（含本机绝对路径，属本机私有）
+.wbapp_*.genie
+
+# 环境变量（含 Turso 令牌等机密，绝不提交；.env.example 是模板可以提交）
+.env
+.env.*
+!.env.example
+
 # 系统与编辑器
 .DS_Store
 .vscode/

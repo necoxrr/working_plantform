@@ -1,20 +1,32 @@
 {
   "name": "work-manager",
   "version": "1.0.0",
-  "description": "个人工作管理平台：任务、打卡、提醒、日报（Node 内置 sqlite，零原生依赖）",
+  "description": "个人工作管理平台：任务、打卡、提醒、日报。存储可插拔——本地用内置 sqlite，设 TURSO_DATABASE_URL 即切云端 libSQL（无状态、任意平台可部署）",
   "main": "server/index.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node --no-warnings server/index.js",
-    "dev": "node --no-warnings server/index.js"
+    "dev": "node --no-warnings server/index.js",
+    "start:cloud": "node --no-warnings --env-file-if-exists=.env.local server/index.js",
+    "backup": "node --no-warnings server/backup.js",
+    "migrate:cloud": "node --no-warnings --env-file-if-exists=.env.local server/migrate-to-cloud.js",
+    "test": "node --no-warnings tests/e2e.js",
+    "test:local": "bash scripts/e2e-local.sh",
+    "test:cloud": "bash scripts/e2e-cloud.sh"
   },
   "keywords": [
     "work",
     "manager",
-    "sqlite"
+    "sqlite",
+    "libsql",
+    "turso"
   ],
   "license": "MIT",
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "express": "^5.2.1"
   }
 }

@@ -4,16 +4,120 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>工作管理平台</title>
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
+<div class="magic-layer" aria-hidden="true">
+  <div class="aurora-layer"></div>
+  <div class="starfield" id="starfield"></div>
+  <div class="magic-rays"></div>
+  <div class="magic-aura"></div>
+  <div class="magic-circle">
+    <svg viewBox="0 0 400 400" fill="none">
+      <defs>
+        <linearGradient id="mcPink" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffd6ea"/>
+          <stop offset=".5" stop-color="#ff9ec7"/>
+          <stop offset="1" stop-color="#b9a6ff"/>
+        </linearGradient>
+        <linearGradient id="mcGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff3d0"/>
+          <stop offset="1" stop-color="#ffd57e"/>
+        </linearGradient>
+        <radialGradient id="mcDisc" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="rgba(185,166,255,.10)"/>
+          <stop offset=".5" stop-color="rgba(255,158,199,.05)"/>
+          <stop offset=".88" stop-color="rgba(255,158,199,.16)"/>
+          <stop offset="1" stop-color="rgba(255,158,199,0)"/>
+        </radialGradient>
+        <radialGradient id="mcGoldCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#fff8e2" stop-opacity=".98"/>
+          <stop offset=".28" stop-color="#ffe6a8" stop-opacity=".78"/>
+          <stop offset=".58" stop-color="#ffd271" stop-opacity=".34"/>
+          <stop offset="1" stop-color="#ffc85a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- 半透明能量盘（让魔法阵像"光的投影"而非"线描"） -->
+      <circle class="mc-disc" cx="200" cy="200" r="196" fill="url(#mcDisc)"/>
+
+      <!-- A · 外圈 + 外符文环 + 轨道光点（顺时针 · 最慢） -->
+      <g class="mc-a">
+        <circle cx="200" cy="200" r="194" stroke="url(#mcPink)" stroke-width="1" opacity=".9"/>
+        <circle cx="200" cy="200" r="187" stroke="url(#mcGold)" stroke-width="1.4" stroke-dasharray="1.4 8.6" stroke-linecap="round" opacity=".85"/>
+        <circle cx="200" cy="200" r="179" stroke="url(#mcPink)" stroke-width=".8" opacity=".6"/>
+        <circle class="mc-dot" cx="200" cy="10" r="2.6" fill="#fff6e6"/>
+        <circle class="mc-dot" cx="364.5" cy="295" r="2.1" fill="#ffd6ea"/>
+        <circle class="mc-dot" cx="35.5" cy="295" r="2.1" fill="#ffd6ea"/>
+      </g>
+
+      <!-- B · 中圈符文（逆时针） -->
+      <g class="mc-b">
+        <circle cx="200" cy="200" r="152" stroke="url(#mcGold)" stroke-width="1.1" stroke-dasharray=".8 6.4" stroke-linecap="round" opacity=".7"/>
+        <circle cx="200" cy="200" r="143" stroke="url(#mcPink)" stroke-width="1" opacity=".8"/>
+        <circle cx="200" cy="200" r="134" stroke="#ff8fb1" stroke-width=".7" stroke-dasharray="3.5 6.5" opacity=".55"/>
+      </g>
+
+      <!-- C · 五芒星（顺时针 · 中速） -->
+      <g class="mc-c">
+        <polygon points="200,50 288.17,321.35 57.34,153.65 342.66,153.65 111.83,321.35" stroke="url(#mcPink)" stroke-width="1.3" stroke-linejoin="round" opacity=".9"/>
+        <polygon points="200,50 288.17,321.35 57.34,153.65 342.66,153.65 111.83,321.35" stroke="url(#mcGold)" stroke-width=".7" stroke-linejoin="round" transform="rotate(36 200 200)" opacity=".7"/>
+      </g>
+
+      <!-- D · 内核环 + 中心星（逆时针 · 较快） -->
+      <g class="mc-d">
+        <circle cx="200" cy="200" r="72" stroke="url(#mcGold)" stroke-width="1" stroke-dasharray="2.6 6" stroke-linecap="round" opacity=".8"/>
+        <circle cx="200" cy="200" r="60" stroke="url(#mcPink)" stroke-width="1.1" opacity=".85"/>
+        <polygon points="200,176 205.64,192.23 222.83,192.58 209.13,202.97 214.11,219.42 200,209.6 185.89,219.42 190.87,202.97 177.17,192.58 194.36,192.23" fill="rgba(255,255,255,.92)"/>
+      </g>
+
+      <!-- 中心金光核：金色光晕 + 旋转金环 + 旋转金色星芒（显著动态） -->
+      <g class="mc-gold">
+        <circle class="mc-gold-halo" cx="200" cy="200" r="56" fill="url(#mcGoldCore)"/>
+        <g class="mc-gold-orbit">
+          <circle cx="200" cy="200" r="43" stroke="url(#mcGold)" stroke-width="1.15" stroke-dasharray="1.6 5.2" stroke-linecap="round" opacity=".95"/>
+          <circle cx="200" cy="200" r="33" stroke="#ffe6a6" stroke-width=".85" stroke-dasharray="3 6.6" opacity=".8"/>
+        </g>
+        <g class="mc-gold-star" stroke="url(#mcGold)" stroke-linecap="round">
+          <line x1="200" y1="62" x2="200" y2="150" stroke-width="1.7"/>
+          <line x1="200" y1="250" x2="200" y2="338" stroke-width="1.7"/>
+          <line x1="62" y1="200" x2="150" y2="200" stroke-width="1.7"/>
+          <line x1="250" y1="200" x2="338" y2="200" stroke-width="1.7"/>
+          <line x1="104" y1="104" x2="162" y2="162" stroke-width="1.1" opacity=".78"/>
+          <line x1="238" y1="238" x2="296" y2="296" stroke-width="1.1" opacity=".78"/>
+          <line x1="296" y1="104" x2="238" y2="162" stroke-width="1.1" opacity=".78"/>
+          <line x1="104" y1="296" x2="162" y2="238" stroke-width="1.1" opacity=".78"/>
+        </g>
+      </g>
+
+      <!-- 中心魔法核（金色呼吸脉动） -->
+      <circle class="mc-core" cx="200" cy="200" r="7" fill="#fff8e6"/>
+    </svg>
+  </div>
+  <div class="gold-core"></div>
+  <div class="sparkle-layer">
+    <i class="sparkle" style="left:11%;top:16%;animation-delay:.2s"></i>
+    <i class="sparkle" style="left:27%;top:64%;animation-delay:1.4s;width:12px;height:12px"></i>
+    <i class="sparkle" style="left:44%;top:28%;animation-delay:.8s"></i>
+    <i class="sparkle" style="left:62%;top:72%;animation-delay:2.2s"></i>
+    <i class="sparkle" style="left:78%;top:20%;animation-delay:1.0s"></i>
+    <i class="sparkle" style="left:88%;top:56%;animation-delay:1.8s;width:11px;height:11px"></i>
+    <i class="sparkle" style="left:34%;top:88%;animation-delay:.5s"></i>
+    <i class="sparkle" style="left:69%;top:44%;animation-delay:2.6s;width:13px;height:13px"></i>
+  </div>
+</div>
+<div class="petal-layer" id="petal-layer" aria-hidden="true"></div>
+<div class="dust-layer" id="dust-layer" aria-hidden="true"></div>
 <header class="topbar">
   <h1>工作管理平台</h1>
   <nav class="tabs">
     <button class="tab active" data-view="tasks">任务</button>
     <button class="tab" data-view="report">日报</button>
+    <button class="tab" data-view="history">日报历史</button>
+    <button class="tab" data-view="weekly">复盘</button>
   </nav>
   <div class="actions">
+    <button id="btn-motion" class="btn ghost" title="开启动态效果（可覆盖系统「减少动态」设置）">✦ 动效：开</button>
     <button id="btn-export" class="btn ghost" title="导出全部数据为 JSON">导出备份</button>
     <button id="btn-import" class="btn ghost" title="从 JSON 文件导入">导入</button>
     <input type="file" id="file-import" accept="application/json" hidden />
@@ -33,9 +137,16 @@
   <!-- ============ 任务视图 ============ -->
   <section id="view-tasks" class="view active">
     <div class="toolbar">
-      <h2>任务列表</h2>
+      <div class="toolbar-left">
+        <h2>任务列表</h2>
+        <div class="seg" id="task-filter">
+          <button class="seg-btn active" data-filter="all">全部</button>
+          <button class="seg-btn" data-filter="today">今日</button>
+        </div>
+      </div>
       <button id="btn-new-task" class="btn primary">+ 新建任务</button>
     </div>
+    <p id="task-focus-note" class="muted small hidden"></p>
     <div id="task-list" class="task-list"></div>
     <p id="task-empty" class="empty hidden">还没有任务，点击右上角「新建任务」开始。</p>
   </section>
@@ -51,11 +162,21 @@
     </div>
     <div class="report-layout">
       <div class="report-main">
-        <label class="field-label">今日工作内容（手写）</label>
-        <textarea id="report-content" placeholder="详细记录今天做了什么……（可切换到任意历史日期修改）"></textarea>
+        <label class="field-label">工作内容（一行一条）</label>
+        <p class="muted small">这里只负责「写下今天做了什么」：每条可以关联一个任务，不属于任务的小事留在「其他小事」。保存会<b>追加</b>到当天日报，不会动已保存的内容。</p>
+        <div id="report-entries"></div>
+        <div class="entry-tools">
+          <button type="button" id="btn-add-entry" class="btn tiny ghost">+ 添加条目</button>
+          <button type="button" id="btn-import-checkin" class="btn tiny ghost" title="把今天打过卡的任务带成条目草稿">导入今日打卡</button>
+        </div>
+
+        <label class="field-label" style="margin-top:16px">补充说明（整天，可选）</label>
+        <textarea id="report-content" rows="4" placeholder="今天整体的备注、心得、明天要接着做的事……"></textarea>
+
+        <p class="muted small" style="margin-top:16px">本页保存后会自动清空，方便接着往下写。要<b>查看或修改</b>已保存的日报（含这里写的整天补充说明、以及各任务的补充说明），请到「日报历史」。</p>
         <div class="report-main-footer">
           <span id="report-status" class="muted"></span>
-          <button id="btn-save-report" class="btn primary">保存日报</button>
+          <button id="btn-save-report" class="btn primary">保存并追加</button>
         </div>
       </div>
       <aside class="report-side">
@@ -64,6 +185,30 @@
         <div id="report-summary"></div>
       </aside>
     </div>
+  </section>
+
+  <!-- ============ 日报历史视图 ============ -->
+  <section id="view-history" class="view">
+    <div class="toolbar">
+      <h2>日报历史</h2>
+      <span class="muted small">按月分组 · 可随时编辑保存</span>
+    </div>
+    <div id="history-list"></div>
+    <p id="history-empty" class="empty hidden">还没有保存过日报。去「日报」页写下今天的工作吧。</p>
+  </section>
+
+  <!-- ============ 周复盘视图 ============ -->
+  <section id="view-weekly" class="view">
+    <div class="toolbar">
+      <h2>周复盘</h2>
+      <div class="week-nav">
+        <button id="week-prev" class="btn tiny ghost">← 上一周</button>
+        <span id="week-label" class="muted small">—</span>
+        <button id="week-next" class="btn tiny ghost">下一周 →</button>
+        <button id="week-this" class="btn tiny ghost">回到本周</button>
+      </div>
+    </div>
+    <div id="weekly-body"></div>
   </section>
 </main>
 
@@ -77,6 +222,13 @@
 
     <label class="field-label">详细描述</label>
     <textarea id="f-desc" rows="2" placeholder="补充说明"></textarea>
+
+    <label class="field-label">优先级（四象限）</label>
+    <div class="quad-pick">
+      <label class="quad-opt"><input type="checkbox" id="f-important" /> 重要</label>
+      <label class="quad-opt"><input type="checkbox" id="f-urgent" /> 紧急</label>
+      <span id="f-quad-hint" class="muted small"></span>
+    </div>
 
     <div class="grid2">
       <div>
@@ -112,6 +264,7 @@
     <label class="field-label">提醒点（可多个）</label>
     <div id="reminder-rows"></div>
     <button type="button" id="btn-add-reminder" class="btn tiny ghost">+ 添加提醒点</button>
+    <p class="muted small reminder-note">提醒仅在任务<b>已开工</b>（点过「开始」或打过卡）且<b>未完成</b>时送达。</p>
 
     <div class="modal-footer">
       <button id="btn-delete" class="btn danger hidden">删除任务</button>
@@ -124,6 +277,6 @@
 
 <div id="toast" class="toast hidden"></div>
 
-<script src="app.js"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
